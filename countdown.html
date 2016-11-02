@@ -1,0 +1,132 @@
+<!HTML>
+<html>
+	<head>
+		<style>
+			@font-face {
+				font-family: score;
+				src: url('shyfoundry_sf-digital-readout/SFDigitalReadout-Medium.tff');
+			}
+			*{
+				background-color:black;
+				color: white;
+			}
+			#package{
+				max-width: 960px;
+				margin-right: auto;
+				margin-left: auto;
+				margin-top: 150px;
+			}
+			#holder{
+				padding: 10px;
+			}
+			#count{
+				
+			}
+		
+		</style>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>
+			
+			var go = true;
+			var stopped = false;
+			var reset = false;
+			var min = new Image();
+			var sec = new Image();
+			var sec2 = new Image();
+			var digit = 0;
+			var digit2 = 0;
+			var colon = new Image();
+			
+			function pad(num, size) {
+				var s = num+"";
+				while (s.length < size) s = "0" + s;
+				return s;
+			}
+			
+			function startMatch(){
+				go = true;
+				if (!stopped){
+					var counter = 150;
+				}
+				setInterval(function() {
+					if (reset){
+						counter = 150;
+					}
+					reset = false;
+					if (go){
+						counter--;
+						if (counter >= 0) {
+							span = document.getElementById("count");
+							j = Math.floor(counter / 60);
+							i = counter % 60;
+							span.innerHTML = j + ":" + pad(i,2);
+							digit = (''+pad(i,2))[0];
+							digit2 = (''+pad(i,2))[1];
+							
+							min.src ="digits/B"+j+".png";
+							sec.src ="digits/B"+digit+".png";
+							sec2.src ="digits/B"+digit2+".png";
+							colon.src = "digits/Bcolon.png"
+							
+							document.body.appendChild(min);
+							document.body.appendChild(colon);
+							document.body.appendChild(sec);
+							document.body.appendChild(sec2);
+						}
+						if (counter === 0) {
+							alert('sorry, out of time');
+							clearInterval(counter);
+							stopped = false;
+							reset = false;
+						}
+					}
+				}, 1000);
+			}
+			
+			
+			function stopMatch(){
+				go = false;
+				stopped = true;
+			}
+			
+			function restMatch(){
+				span = document.getElementById("count");
+				span.innerHTML = "2:30";
+				min.src ="digits/B2.png";
+				sec.src ="digits/B3.png";
+				sec2.src ="digits/B0.png";
+				colon.src = "digits/Bcolon.png"
+						
+				document.body.appendChild(min);
+				document.body.appendChild(colon);
+				document.body.appendChild(sec);
+				document.body.appendChild(sec2);
+				
+				go = false;
+				stopped = false;
+				reset = true;
+				counter = 150;
+			}
+			
+		</script>
+	</head>
+	
+	<body>
+		<div id="package">
+			<div id="holder">
+				<h1>Countdown timer for HTK</h1>
+				
+				
+				<button onclick="startMatch()">Start Match</button>
+				<button onclick="stopMatch()">Stop Match</button>
+				<button onclick="restMatch()">Reset Match</button>
+				
+				<p id="count"></p>
+				
+				
+				
+			
+			</div>
+		</div>
+	</body>
+</html>
