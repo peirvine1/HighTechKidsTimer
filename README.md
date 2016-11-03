@@ -1,4 +1,4 @@
-# HighTechKidsTimer
+# High Tech Kids Timer
 
 Countdown.html is the file that contains the javascript, css, and html needed for the timer. 
 
